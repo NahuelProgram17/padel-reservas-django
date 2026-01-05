@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Reservá tu cancha de pádel</h1>
+<p class="mb-5">Canchas indoor y outdoor · Horarios de 10 a 22 hs</p>
+
+<div class="row">
+    {% for cancha in canchas %}
+        <div class="col-md-4 mb-4">
+            <div class="card p-4">
+                <h4>{{ cancha.nombre }}</h4>
+                <p>Tipo: {{ cancha.tipo|title }}</p>
+                <p>Precio: ${{ cancha.precio_por_hora }}</p>
+
+                <a href="{% url 'reservas:crear_reserva' %}"
+                   class="btn btn-padel mt-2">
+                   Reservar
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% for reserva in reservas %}
+  <div class="col-md-4 mb-3">
+    <div class="card p-3">
+      <h5>{{ reserva.cancha }}</h5>
+      <p>{{ reserva.fecha }} — {{ reserva.hora }}</p>
+
+      {% if reserva.estado == 'activa' %}
+        <a href="{% url 'cancelar_reserva' reserva.id %}"
+           class="btn btn-danger btn-sm">
+           Cancelar
+        </a>
+      {% else %}
+        <span class="text-warning">Cancelada</span>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}

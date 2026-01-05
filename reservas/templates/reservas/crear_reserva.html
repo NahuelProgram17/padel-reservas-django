@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Reservar cancha</h2>
+
+<div class="card p-4">
+  <form method="post" id="reserva-form">
+    {% csrf_token %}
+    {{ form.cancha.label_tag }} {{ form.cancha }}
+    {{ form.fecha.label_tag }} {{ form.fecha }}
+
+    <label for="id_hora">Horario disponible</label>
+    <select name="hora" id="id_hora" class="form-control mb-3">
+      <option value="">Seleccioná un horario</option>
+    </select>
+
+    <button class="btn btn-padel mt-3">Confirmar reserva</button>
+  </form>
+</div>
+
+<script>
+const cancha = document.getElementById('id_cancha');
+const fecha = document.getElementById('id_fecha');
+const hora = document.getElementById('id_hora');
+
+function cargarHorarios() {
+  if (!cancha.value || !fecha.value) return;
+
+  fetch(`/horarios-disponibles/?cancha=${cancha.value}&fecha=${fecha.value}`)
+    .then(response => response.json())
+    .then(data => {
+      hora.innerHTML = '<option value="">Seleccioná un horario</option>';
+      data.horarios.forEach(h => {
+        const option = document.createElement('option');
+        option.value = h;
+        option.textContent = h;
+        hora.appendChild(option);
+      });
+    });
+}
+
+cancha.addEventListener('change', cargarHorarios);
+fecha.addEventListener('change', cargarHorarios);
+</script>
+{% endblock %}
